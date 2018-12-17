@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. PostgreSQL Database Configuration &mdash; Database Setup Guide for EniWARE Platform 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="1. PostgreSQL Database Installation" href="install-db.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Database Setup Guide for EniWARE Platform
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install-db.html">1. PostgreSQL Database Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. PostgreSQL Database Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#set-up-an-authentication-method">2.1. Set up an Authentication Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-the-database-components">2.2. Creating the Database Components</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Database Setup Guide for EniWARE Platform</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>2. PostgreSQL Database Configuration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/configure-db.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="postgresql-database-configuration">
+<span id="db-conf"></span><h1>2. PostgreSQL Database Configuration<a class="headerlink" href="#postgresql-database-configuration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="set-up-an-authentication-method">
+<span id="dp-pass"></span><h2>2.1. Set up an Authentication Method<a class="headerlink" href="#set-up-an-authentication-method" title="Permalink to this headline">¶</a></h2>
+<p>After successfully <a class="reference internal" href="install-db.html#db-install"><span class="std std-ref">installing of PostgreSQL 9.6</span></a> and configuring network access, the next step is to set up a password for the <strong>postgres</strong> user. Run the following command at a terminal prompt to connect to the default PostgreSQL template database:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">u</span> <span class="n">postgres</span> <span class="n">psql</span> <span class="n">template1</span>   <span class="o">-</span> <span class="n">лог</span> <span class="n">в</span> <span class="n">пострге</span> <span class="n">с</span> <span class="n">темп1</span> <span class="n">за</span> <span class="n">да</span> <span class="n">може</span> <span class="n">да</span> <span class="n">сменим</span> <span class="n">паролата</span>
+</pre></div>
+</div>
+<p>The above command connects to PostgreSQL database <strong>template1</strong> as user <strong>postgres</strong>. Once you connect to the PostgreSQL server, you will be at a SQL prompt. You can run the following SQL command at the <strong>psql</strong> prompt to configure the <em>password</em> for the user <strong>postgres</strong>:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ALTER</span> <span class="n">USER</span> <span class="n">postgres</span> <span class="k">with</span> <span class="n">encrypted</span> <span class="n">password</span> <span class="s1">&#39;your_password&#39;</span>
+</pre></div>
+</div>
+<p>After configuring the <em>password</em>, exit from the SQL promp with the command <code class="docutils literal notranslate"><span class="pre">\q</span></code>. The next step is to edit the file <code class="docutils literal notranslate"><span class="pre">/etc/postgresql/9.6/main/pg_hba.conf</span></code> to use MD5 authentication with the <strong>postgres</strong> user:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">local</span> <span class="nb">all</span>     <span class="n">postgres</span>     <span class="n">md5</span>
+</pre></div>
+</div>
+<p>To initialize the new configuration, you should restart the <strong>postgresql</strong> service using the command <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">postgresql</span> <span class="pre">restart</span></code>.</p>
+</div>
+<div class="section" id="creating-the-database-components">
+<span id="db-create"></span><h2>2.2. Creating the Database Components<a class="headerlink" href="#creating-the-database-components" title="Permalink to this headline">¶</a></h2>
+<p>For convenient handling of the database and visualization of its components, we recommend the use of the <a class="reference external" href="https://www.pgadmin.org/docs/pgadmin4/3.x/">pgAdmin 3</a> PostrgreSQL tool.</p>
+<p><strong>pgAdmin 3</strong> is a comprehensive PostgreSQL database design and management system for Unix and Windows systems. It is freely available under the terms of the The PostgreSQL Licence.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">TODO: How to install <strong>pgAdmin 3</strong></p>
+</div>
+<p>Open <strong>pgAdmin 3</strong> as an Ubuntu application or via a terminal, and add new server connection with the following parameters:
+* Host <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>
+* maintenance database <code class="docutils literal notranslate"><span class="pre">postgres</span></code>
+* user <code class="docutils literal notranslate"><span class="pre">postgres</span></code>
+* password <code class="docutils literal notranslate"><span class="pre">your_password</span></code> (same as the password in the <a class="reference internal" href="#dp-pass"><span class="std std-ref">previous section</span></a> is configured)</p>
+<p>Through the pgAdmin’s GUI interface, you can easily monitor the created database and SQL files.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Which is right?</p>
+<ul class="last simple">
+<li><strong>Var. 1:</strong> Now you have to install all the tools you need to open the SQL files from project <code class="docutils literal notranslate"><span class="pre">eniware-db-setup/postgres</span></code> and this will generate all the necessary tables, functionts, types, views, triggers etc, used to create the <strong>EniwareDatabase</strong>.</li>
+<li><strong>Var 2:</strong> After installing all tools (using Eclipse or the cloned repository files <strong>??</strong>) you need to open the SQL files from project (eniware-db-setup/postgres) to create the <strong>EniwareDatabase</strong>.</li>
+</ul>
+</div>
+<p>To add the required components to the database, follow the procedure below:</p>
+<ol class="arabic simple">
+<li>Run the following command at a terminal prompt to connect to the <strong>postgres</strong> database:</li>
+</ol>
+<blockquote>
+<div><div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>sudo -u postgres psql postgres``
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>From the <strong>postgres</strong> user copy and paste the scripts in terminal from the following files:</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><strong>postgres-create.sql</strong>: When logged as user <strong>postgres</strong> copy and paste the command scripts <code class="docutils literal notranslate"><span class="pre">ROLE</span></code> and <code class="docutils literal notranslate"><span class="pre">DATABASE</span></code> in terminal from file <code class="docutils literal notranslate"><span class="pre">postgres-create.sql</span></code>:</li>
+</ul>
+<blockquote>
+<div><div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">ROLE</span> <span class="n">eniware</span> <span class="n">WITH</span> <span class="n">SUPERUSER</span> <span class="n">LOGIN</span> <span class="n">ENCRYPTED</span> <span class="n">PASSWORD</span> <span class="s1">&#39;Eniware8&#39;</span> <span class="n">VALID</span> <span class="n">UNTIL</span> <span class="s1">&#39;infinity&#39;</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">DATABASE</span> <span class="n">eniware</span> <span class="n">WITH</span> <span class="n">ENCODING</span><span class="o">=</span><span class="s1">&#39;UTF8&#39;</span> <span class="n">OWNER</span><span class="o">=</span><span class="n">eniware</span> <span class="n">TEMPLATE</span><span class="o">=</span><span class="n">template0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>After executing the <code class="docutils literal notranslate"><span class="pre">ROLE</span></code> and <code class="docutils literal notranslate"><span class="pre">DATABASE</span></code> scripts logout from user <strong>postgres</strong>. Connect to user <strong>eniware</strong> with command <code class="docutils literal notranslate"><span class="pre">psql</span> <span class="pre">-U</span> <span class="pre">eniware</span></code> and create <strong>extensions</strong> from same file:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">EXTENSION</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">citext</span> <span class="n">WITH</span> <span class="n">SCHEMA</span> <span class="n">public</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">EXTENSION</span> <span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">pgcrypto</span> <span class="n">WITH</span> <span class="n">SCHEMA</span> <span class="n">public</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><strong>postgres-init-plv8.sql</strong>: To create <strong>functions</strong> copy and paste all scripts form this file and press enter. After that go to the <code class="docutils literal notranslate"><span class="pre">/etc/postgresql/9.6/main/postgresql.conf</span></code> file and check in <code class="docutils literal notranslate"><span class="pre">CUTOMIZED</span> <span class="pre">OPTIONS</span> <span class="pre">/#Add</span> <span class="pre">settings</span> <span class="pre">for</span> <span class="pre">extensions</span> <span class="pre">here/</span></code> if the <code class="docutils literal notranslate"><span class="pre">plv8.start_proc</span> <span class="pre">=</span> <span class="pre">'plv8_startup'</span></code> exist. If not add it and save the file.</li>
+</ul>
+<blockquote>
+<div>Restart the <strong>postgresql</strong> ervice again.</div></blockquote>
+<ul class="simple">
+<li><strong>postgres-init.sql</strong>: In terminal navigate to directory <code class="docutils literal notranslate"><span class="pre">/home/eniware/git/org.eniware.central/eniware-db-setup/postgres</span></code>. When you are in this directory log in from terminal in PostgreSQL with user <strong>eniware</strong> and type <code class="docutils literal notranslate"><span class="pre">\i</span> <span class="pre">postgres-init.sql</span></code> and press enter.  <strong>TODO: What is the result of this action?</strong></li>
+<li>After step 3 you need to copy the <strong>JDBC properties</strong> files from <strong>edge</strong> and <strong>central</strong> projects: from project <code class="docutils literal notranslate"><span class="pre">org.eniware.central.common.dao.jdbc/example/configuration</span></code> and project <code class="docutils literal notranslate"><span class="pre">org.eniware.edge.dao.jdbc/example/configuration</span></code> to project <code class="docutils literal notranslate"><span class="pre">eniware-osgi-target/configurations/services</span></code> and change the file extensions with <code class="docutils literal notranslate"><span class="pre">.cfg</span></code>.</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>You need to change configurations of file <code class="docutils literal notranslate"><span class="pre">org.eniware.central.dao.jdbc.cfg</span></code> as follows:</li>
+</ol>
+<blockquote>
+<div><div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jdbc</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">org</span><span class="o">.</span><span class="n">postgresql</span><span class="o">.</span><span class="n">Driver</span>
+<span class="n">jdbc</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">jdbc</span><span class="p">:</span><span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">5432</span><span class="o">/</span><span class="n">eniware</span>
+<span class="n">jdbc</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">eniware</span>
+<span class="n">jdbc</span><span class="o">.</span><span class="k">pass</span> <span class="o">=</span> <span class="n">Eniware8</span>
+</pre></div>
+</div>
+<p>This configurations is need to connect to database.</p>
+</div></blockquote>
+<p>4.The configuration settings on file <code class="docutils literal notranslate"><span class="pre">org.eniware.edge.dao.jdbc.cfg</span></code> should be as follows:</p>
+<blockquote>
+<div><div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jdbc</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">derby</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">EmbeddedDriver</span>
+<span class="n">jdbc</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">jdbc</span><span class="p">:</span><span class="n">derby</span><span class="p">:</span><span class="n">eniwareedge</span><span class="p">;</span><span class="n">create</span><span class="o">=</span><span class="n">true</span>
+<span class="n">jdbc</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">eniwareedge</span>
+<span class="n">jdbc</span><span class="o">.</span><span class="k">pass</span> <span class="o">=</span> <span class="n">eniwareedge</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="install-db.html" class="btn btn-neutral" title="1. PostgreSQL Database Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, EniWARE.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
