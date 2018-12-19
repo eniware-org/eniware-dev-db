@@ -21,7 +21,7 @@ Welcome to Database Setup Guide for EniWARE Platform's documentation!
          en
 
 :Description:
-        Creating Documentation for EniWARE Platform
+        Database Setup Guide for EniWARE Platform
 
 :Author:
          EniWARE
@@ -33,15 +33,17 @@ Welcome to Database Setup Guide for EniWARE Platform's documentation!
 Introduction
 =============
 
-This documentation will describe the process of installation and configuration of database that will be used for the various projects related to the EniWARE Platform.
+In the `Eclipse Setup Guide for EniwareNetwork <https://eniware-org.github.io/eniware-dev-docs/>`_ documentation we introduced you the EniwareNetwork open source software platform and how to setup a development environment for contributing to or modifying EniwareNetwork code using the popular Eclipse IDE. 
 
-A `PostgreSQL v.9.6 <https://www.postgresql.org/>`_ will be used as a database.
+The EniwareNetwork Platform requires the use of databases. This documentation will describe the process of installation and configuration of database to be used in the various projects related to the EniwareNetwork Platform.
+
+A `PostgreSQL v.9.6 <https://www.postgresql.org/>`_ will be used as a software to manage the database.
 
 **Prerequisites**
 
- 1. `Ubuntu Server 18.04 LTS <http://releases.ubuntu.com/18.04/>`_
+ 1. Linux based operation system with GUI.
  2. SSH client (`PuTTY <https://www.putty.org/>`_ for example)
- 3. Git and/or Eclipse 
+ 3. Installed and `properly configured Eclipse <https://eniware-org.github.io/eniware-dev-docs/eclipse-set-guide.html#eclipse-setup-guide>`_ and/or Git. 
 
 
 	  

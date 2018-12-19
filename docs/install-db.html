@@ -148,7 +148,7 @@
             
   <div class="section" id="postgresql-database-installation">
 <span id="db-install"></span><h1>1. PostgreSQL Database Installation<a class="headerlink" href="#postgresql-database-installation" title="Permalink to this headline">¶</a></h1>
-<p><strong>The first step</strong> is to add the necessary repositorie from which PostgreSQL can be installed:</p>
+<p><strong>The first step</strong> is to add the necessary repository  from which PostgreSQL can be installed:</p>
 <div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">add</span><span class="o">-</span><span class="n">apt</span><span class="o">-</span><span class="n">repository</span> <span class="s2">&quot;deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main&quot;</span>
 <span class="n">wget</span> <span class="o">--</span><span class="n">quiet</span> <span class="o">-</span><span class="n">O</span> <span class="o">-</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">postgresql</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">keys</span><span class="o">/</span><span class="n">ACCC4CF8</span><span class="o">.</span><span class="n">asc</span> <span class="o">|</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">-</span>
 </pre></div>
@@ -158,13 +158,24 @@
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">postgresql</span><span class="o">-</span><span class="mf">9.6</span> <span class="n">postgresql</span><span class="o">-</span><span class="mf">9.6</span><span class="o">-</span><span class="n">plv8</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">contrib</span><span class="o">-</span><span class="mf">9.6</span> <span class="n">pgadmin3</span>
 </pre></div>
 </div>
-<p><strong>The third step</strong> is to make the necessary network settings to allow connections via the network.
-To enable other computers to connect to your PostgreSQL server, edit the file <code class="docutils literal notranslate"><span class="pre">/etc/postgresql/9.6/main/postgresql.conf</span></code> as it is described below:</p>
+<p>The above command will install the following:</p>
 <blockquote>
-<div><p>Locate the line <code class="docutils literal notranslate"><span class="pre">#listen_addresses</span> <span class="pre">=</span> <span class="pre">'localhost'</span></code> and change it to <code class="docutils literal notranslate"><span class="pre">listen_addresses</span> <span class="pre">=</span> <span class="pre">'*'</span></code>.</p>
-<p>To allow both IPv4 and IPv6 connections replace <code class="docutils literal notranslate"><span class="pre">'localhost'</span></code> with <code class="docutils literal notranslate"><span class="pre">'::'</span></code>.</p>
+<div><ul class="simple">
+<li>postgresql-9.6 - PostgreSQL 9.6 open source database;</li>
+<li>postgresql-9.6-plv8 - <a class="reference external" href="https://packages.debian.org/stretch/postgresql-9.6-plv8">the plv8 package</a> provides a procedural language interface to JavaScript from PostgreSQL.</li>
+<li>postgresql-contrib-9.6 - <a class="reference external" href="https://www.postgresql.org/docs/9.6/contrib.html">the contrib package</a> provides several additional supplied modules for the PostgreSQL database.</li>
+<li>pgadmin3 - <a class="reference external" href="https://www.pgadmin.org/docs/pgadmin4/3.x/">the pgadmin3 package</a> provides a graphical administration utility.</li>
+</ul>
 </div></blockquote>
-<p>You may also edit all other parameters, if you know what you are doing! For details, refer to the configuration file or to the <a class="reference external" href="https://www.postgresql.org/docs/9.6/index.html">PostgreSQL documentation</a>.</p>
+<p><strong>The third step</strong> is to make the necessary network settings to allow connections via the network.
+To enable other computers to connect to your PostgreSQL server, edit the file  <code class="docutils literal notranslate"><span class="pre">/etc/postgresql/9.6/main/postgresql.conf</span></code> as it is described below:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Locate the line <code class="docutils literal notranslate"><span class="pre">#listen_addresses</span> <span class="pre">=</span> <span class="pre">'localhost'</span></code> and change it to <code class="docutils literal notranslate"><span class="pre">listen_addresses</span> <span class="pre">=</span> <span class="pre">'*'</span></code>.</li>
+<li>To allow both IPv4 and IPv6 connections replace <code class="docutils literal notranslate"><span class="pre">'localhost'</span></code> with <code class="docutils literal notranslate"><span class="pre">'::'</span></code>.</li>
+</ul>
+</div></blockquote>
+<p>You may also edit all other parameters, if you know what you are doing! For details, refer to the configuration file or to the <a class="reference external" href="https://www.postgresql.org/docs/9.6/index.html">PostgreSQL official documentation</a>.</p>
 <p>Now we can connect to our PostgreSQL server and make the <a class="reference internal" href="configure-db.html#db-conf"><span class="std std-ref">necessary configurations</span></a>.</p>
 </div>
 
