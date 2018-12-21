@@ -47,8 +47,7 @@ The first command will create the **eniware** user (with the configured password
 
 The second command will execute the ``postgres-init-plv8.sql`` script that will add the necessary components to the database.
 
-Once the script has been executed, you should navigate to the ``/etc/postgresql/9.6/main/postgresql.conf`` directory. 
-The **postgresql.conf** configuration must be updated to add the **plv8** global context. To do that open the **postgresql.conf** file using ``sudo nano /etc/postgresql/9.6/main/postgresql.conf``, and enter the following line after the ``*CUTOMIZED OPTIONS /#Add settings for extensions here/`` field:
+Once the script has been executed, you should navigate to the ``/etc/postgresql/9.6/main/`` directory, where the **postgresql.conf** file is located. The **postgresql.conf** configuration must be updated to add the **plv8** global context. To do that open the **postgresql.conf** file using ``sudo nano /etc/postgresql/9.6/main/postgresql.conf``, and enter the following line after the ``*CUTOMIZED OPTIONS /#Add settings for extensions here/`` field:
 
 .. code::
 
