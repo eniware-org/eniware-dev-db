@@ -158,10 +158,16 @@
 <span class="n">sudo</span> <span class="n">su</span> <span class="n">postgres</span>
 </pre></div>
 </div>
-<p>The first command will add а password to the <strong>postgres</strong> OS user. This is necessary to enable the <strong>postgres</strong> OS user to get permission to create an <strong>eniware</strong> user that is needed for database management.</p>
-<p>After executing the first command, you will be prompt to setup a password for the <strong>postgres</strong> user.</p>
+<ul class="simple">
+<li>The first command will add а password to the <strong>postgres</strong> OS user. This is necessary to enable the <strong>postgres</strong> OS user to get permission to create an <strong>eniware</strong> user that is needed for database management.</li>
+</ul>
+<blockquote>
+<div><p>After executing the first command, you will be prompt to setup a password for the <strong>postgres</strong> user.</p>
 <p>The password (mentioned here as <code class="docutils literal notranslate"><span class="pre">your_password</span></code>) for <strong>eniware</strong> user is configured in the <code class="docutils literal notranslate"><span class="pre">postgre-create.sql</span></code> script (see the next section).</p>
-<p>The second command allows super user permissions to the <strong>postgres</strong> user.</p>
+</div></blockquote>
+<ul class="simple">
+<li>The second command allows super user permissions to the <strong>postgres</strong> user.</li>
+</ul>
 </div>
 <div class="section" id="creating-the-database-components">
 <span id="db-create"></span><h2>2.2. Creating the Database Components<a class="headerlink" href="#creating-the-database-components" title="Permalink to this headline">¶</a></h2>
@@ -174,25 +180,29 @@
 <span class="n">psql</span> <span class="o">-</span><span class="n">U</span> <span class="n">postgres</span> <span class="o">-</span><span class="n">d</span> <span class="n">eniware</span> <span class="o">-</span><span class="n">f</span> <span class="n">postgres</span><span class="o">-</span><span class="n">init</span><span class="o">-</span><span class="n">plv8</span><span class="o">.</span><span class="n">sql</span>
 </pre></div>
 </div>
-<p>The first command will create the <strong>eniware</strong> user (with the configured password <code class="docutils literal notranslate"><span class="pre">your_password</span></code> in the script) and database and add the necessary extensions to the <strong>eniware</strong> database.</p>
-<p>The second command will execute the <code class="docutils literal notranslate"><span class="pre">postgres-init-plv8.sql</span></code> script that will add the necessary components to the database.</p>
-<p>Once the script has been executed, you should navigate to the <code class="docutils literal notranslate"><span class="pre">/etc/postgresql/9.6/main/</span></code> directory, where the <strong>postgresql.conf</strong> file is located. The <strong>postgresql.conf</strong> configuration must be updated to add the <strong>plv8</strong> global context. To do that open the <strong>postgresql.conf</strong> file using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">nano</span> <span class="pre">/etc/postgresql/9.6/main/postgresql.conf</span></code>, and enter the following line after the <code class="docutils literal notranslate"><span class="pre">*CUTOMIZED</span> <span class="pre">OPTIONS</span> <span class="pre">/#Add</span> <span class="pre">settings</span> <span class="pre">for</span> <span class="pre">extensions</span> <span class="pre">here/</span></code> field:</p>
+<ul class="simple">
+<li>The first command will create the <strong>eniware</strong> user (with the configured password <code class="docutils literal notranslate"><span class="pre">your_password</span></code> in the script) and database and add the necessary extensions to the <strong>eniware</strong> database.</li>
+<li>The second command will execute the <code class="docutils literal notranslate"><span class="pre">postgres-init-plv8.sql</span></code> script that will add the necessary components to the database.</li>
+</ul>
+<p>Once the script has been executed, you should log out <strong>postgres</strong> OS user with the <code class="docutils literal notranslate"><span class="pre">exit</span></code> command and log in with an <strong>eniware</strong> OS user.</p>
+<p>Navigate to the <code class="docutils literal notranslate"><span class="pre">/etc/postgresql/9.6/main/</span></code> directory, where the <strong>postgresql.conf</strong> file is located. The <strong>postgresql.conf</strong> configuration must be updated to add the <strong>plv8</strong> global context. To do that open the <strong>postgresql.conf</strong> file using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">nano</span> <span class="pre">/etc/postgresql/9.6/main/postgresql.conf</span></code>, and enter the following line after the <code class="docutils literal notranslate"><span class="pre">*CUTOMIZED</span> <span class="pre">OPTIONS</span> <span class="pre">/#Add</span> <span class="pre">settings</span> <span class="pre">for</span> <span class="pre">extensions</span> <span class="pre">here/</span></code> field:</p>
 <div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plv8</span><span class="o">.</span><span class="n">start_proc</span> <span class="o">=</span> <span class="s1">&#39;plv8_startup&#39;</span>
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">After completing the step above you should restart the <strong>postgresql</strong> service.</p>
+<p>After completing the step above you should restart the <strong>postgresql</strong> service:</p>
+<div class="code last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">service</span> <span class="n">postgresql</span> <span class="n">restart</span>
+</pre></div>
 </div>
-<p>Exit from the <strong>postgres</strong> OS user with the <code class="docutils literal notranslate"><span class="pre">exit</span></code> command.
-From the <strong>eniware</strong> OS user navigate to the <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">/home/eniware/git/org.eniware.central/eniware-db-setup/postgres/</span></code>  directory and run the following command:</p>
+</div>
+<p>From the <strong>eniware</strong> OS user navigate to the <code class="docutils literal notranslate"><span class="pre">/home/eniware/git/org.eniware.central/eniware-db-setup/postgres/</span></code> directory and run the following command:</p>
 <div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">psql</span> <span class="o">-</span><span class="n">U</span> <span class="n">eniware</span> <span class="o">-</span><span class="n">d</span> <span class="n">eniware</span> <span class="o">-</span><span class="n">f</span> <span class="n">postgres</span><span class="o">-</span><span class="n">init</span><span class="o">.</span><span class="n">sql</span>
 </pre></div>
 </div>
 <p>Тhe execution of <code class="docutils literal notranslate"><span class="pre">postgres-init.sql</span></code> script will create the entire <strong>eniware</strong> database and all necessary components for the <strong>eniware</strong> user.</p>
 <p>Finally, using the Eclipse you need to copy the <strong>JDBC properties</strong> files from <strong>edge</strong> and <strong>central</strong> projects: from project <code class="docutils literal notranslate"><span class="pre">org.eniware.central.common.dao.jdbc/example/configuration</span></code> and project <code class="docutils literal notranslate"><span class="pre">org.eniware.edge.dao.jdbc/example/configuration</span></code> to project <code class="docutils literal notranslate"><span class="pre">eniware-osgi-target/configurations/services</span></code> and change the file extensions with <code class="docutils literal notranslate"><span class="pre">.cfg</span></code>.</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>You need to change configurations of file <code class="docutils literal notranslate"><span class="pre">org.eniware.central.dao.jdbc.cfg</span></code> as follows:</li>
 </ul>
 <blockquote>
@@ -214,7 +224,6 @@ From the <strong>eniware</strong> OS user navigate to the <code class="docutils 
 <span class="n">jdbc</span><span class="o">.</span><span class="k">pass</span> <span class="o">=</span> <span class="n">eniwareedge</span>
 </pre></div>
 </div>
-</div></blockquote>
 </div></blockquote>
 <div class="admonition hint">
 <p class="first admonition-title">Hint</p>
