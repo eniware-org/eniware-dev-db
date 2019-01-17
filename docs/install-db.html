@@ -153,6 +153,14 @@
 <span class="n">wget</span> <span class="o">--</span><span class="n">quiet</span> <span class="o">-</span><span class="n">O</span> <span class="o">-</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">postgresql</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">keys</span><span class="o">/</span><span class="n">ACCC4CF8</span><span class="o">.</span><span class="n">asc</span> <span class="o">|</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">-</span>
 </pre></div>
 </div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The first <code class="docutils literal notranslate"><span class="pre">sudo</span></code> command above will require to enter a user password. If for some reason you omit this command, the second <code class="docutils literal notranslate"><span class="pre">sudo</span></code> command (i.e. <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-key</span> <span class="pre">add</span> <span class="pre">-</span></code>) will also require a user password. In this case, if you run it and then when it does not continue, type your password. <strong>It will not show on screen!</strong></p>
+<p>Under the above circumstances, the second command may not be executed correctly. To verify that the key is correctly added, run the following: <code class="docutils literal notranslate"><span class="pre">apt-key</span> <span class="pre">list</span></code>. This will list the keys added and the key from PostgreSQL should be listed on the bottom like this:</p>
+<div class="last figure align-center">
+<img alt="apt-key list" src="_images/apt-key-list.png" />
+</div>
+</div>
 <p><strong>The second step</strong> is to install the PostgreSQL database using the following commands:</p>
 <div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">postgresql</span><span class="o">-</span><span class="mf">9.6</span> <span class="n">postgresql</span><span class="o">-</span><span class="mf">9.6</span><span class="o">-</span><span class="n">plv8</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">contrib</span><span class="o">-</span><span class="mf">9.6</span> <span class="n">pgadmin3</span>
@@ -232,6 +240,8 @@ To enable other computers to connect to your PostgreSQL server, edit the file  <
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/custom.js"></script>
+      <script type="text/javascript" src="_static/clipboard.min.js"></script>
 
   
 

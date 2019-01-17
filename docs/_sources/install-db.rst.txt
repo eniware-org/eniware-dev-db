@@ -10,7 +10,15 @@
    sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main"
    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-   
+.. important:: The first ``sudo`` command above will require to enter a user password. If for some reason you omit this command, the second ``sudo`` command (i.e. ``sudo apt-key add -``) will also require a user password. In this case, if you run it and then when it does not continue, type your password. **It will not show on screen!**
+
+ Under the above circumstances, the second command may not be executed correctly. To verify that the key is correctly added, run the following: ``apt-key list``. This will list the keys added and the key from PostgreSQL should be listed on the bottom like this:
+ 
+ .. figure:: /images/apt-key-list.png
+   :alt: apt-key list
+   :align: center
+
+
 **The second step** is to install the PostgreSQL database using the following commands:
 
 .. code::
@@ -35,3 +43,8 @@ You may also edit all other parameters, if you know what you are doing! For deta
 
 
 Now we can connect to our PostgreSQL server and make the :ref:`necessary configurations<db-conf>`.
+
+
+
+
+ 
