@@ -9,20 +9,78 @@
 2.1. Set up an Authentication Method
 -------------------------------------
 
-After successfully :ref:`installing of PostgreSQL 9.6<db-install>` and configuring network access, the next step is to set up a password for the **postgres** user. Run the following commands at a terminal prompt: 
+After successfully :ref:`installing of PostgreSQL 9.6<db-install>` and configuring network access, the next step is to set up a password for the **postgres** user. 
+
+By default, local connections to PostgreSQL use the ``peer`` authentication system. That means that instead of asking you for a password, they check to see if you are currently logged into a system user that matches the user name in Postgres.
+
+You have to change the way you do authentication and instead tell Postgres to use an encrypted password. 
+
+First you need to set a *password* for the **postgres** user. To do this you need to open up **psql** as the user **postgres**.
+
+.. code:: 
+
+  sudo -u postgres psql
+
+
+You should see output that looks something like this:
 
 .. code::
-    
-    sudo passwd postgres
-    sudo su postgres
+ 
+ could not change directory to "/root": Permission denied
+ psql (9.6.11)
+ Type "help" for help.
+ 
+ postgres=#
 
-* The first command will add а password to the **postgres** OS user. This is necessary to enable the **postgres** OS user to get permission to create an **eniware** user that is needed for database management.
+ 
+This permission denied error isn’t important right now.
 
- After executing the first command, you will be prompt to setup a password for the **postgres** user.
+Now that you are connected to Postgres, you have to change the *password* for the user **postgres**. Be sure to replace the ``xxxxxxx`` below with an actual password:
 
- The password (mentioned here as ``your_password``) for **eniware** user is configured in the ``postgre-create.sql`` script (see the next section).
+.. code::
+ 
+ # Replace xxxxxxx with your own password
+ ALTER USER postgres WITH ENCRYPTED PASSWORD 'xxxxxxx';
 
-* The second command allows super user permissions to the **postgres** user.
+
+With the command above you are telling Postgres that you want to update the user **postgres** by setting an *encrypted password* of ``xxxxxxx``. If you did this correct, you should get the following output.
+
+.. code::
+ 
+ ALTER ROLE
+ postgres=#
+
+
+Exit **postgres** user quit by typing ``\q`` and then hitting **Enter**.
+
+Now that you have a *password* set for the **postgres** user you have to update **postgres** to use this *password*. To do this you need to edit the ``pg_hba.conf`` file (you can replace **nano** with an editor of your choice):
+
+.. code::
+ 
+ sudo nano /etc/postgresql/9.6/main/pg_hba.conf
+
+Look for an uncommented line (a line that doesn’t start with ``#``) that has the contents shown below. The spacing will be slightly different, but the words should be the same:
+
+.. code::
+ 
+ local   all   postgres   peer
+
+ 
+The last part of this line is what you have to change. This is what determines how you authenticate the **postgres** user when making a local connection. Instead of ``peer``, which uses your *system user name* to authenticate you, you have to use ``md5`` which uses an *encrypted password* for authentication. Replace the word ``peer`` with ``md5``:
+
+.. code::
+ 
+ local   all   postgres   md5
+
+Save the changes you've made.
+
+Now you need to restart Postgres so the changes take effect:
+
+.. code:: 
+ 
+ sudo service postgresql restart
+
+
 
 
 .. _db-create:
@@ -47,7 +105,7 @@ Within this directory, run the following commands:
 
 * The second command will execute the ``postgres-init-plv8.sql`` script that will add the necessary components to the database.
 
-Once the script has been executed, you should log out **postgres** OS user with the ``exit`` command and log in with an **eniware** OS user. 
+Once the script has been executed, you should log out **postgres** system user with the ``exit`` command and log in with an **eniware** system user. 
 
 Navigate to the ``/etc/postgresql/9.6/main/`` directory, where the **postgresql.conf** file is located. The **postgresql.conf** configuration must be updated to add the **plv8** global context. To do that open the **postgresql.conf** file using ``sudo nano /etc/postgresql/9.6/main/postgresql.conf``, and enter the following line after the ``*CUTOMIZED OPTIONS /#Add settings for extensions here/`` field:
 
@@ -62,7 +120,7 @@ Navigate to the ``/etc/postgresql/9.6/main/`` directory, where the **postgresql.
     
       sudo service postgresql restart
 
-From the **eniware** OS user navigate to the ``/home/eniware/git/org.eniware.central/eniware-db-setup/postgres/`` directory and run the following command:
+From the **eniware** system user navigate to the ``/home/eniware/git/org.eniware.central/eniware-db-setup/postgres/`` directory and run the following command:
 
 .. code::
  

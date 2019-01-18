@@ -6,8 +6,8 @@ button.copybtn {
   opacity: 0;
   padding: 2px 6px;
   position: absolute;
-  left: 4px;
-  top: 4px;
+  left: 1px;
+  top: 1px;
 }
 div.highlight:hover .copybtn, div.highlight .copybtn:focus {
     opacity: .3;

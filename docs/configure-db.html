@@ -153,21 +153,50 @@
 <span id="db-conf"></span><h1>2. PostgreSQL Database Configuration<a class="headerlink" href="#postgresql-database-configuration" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="set-up-an-authentication-method">
 <span id="dp-pass"></span><h2>2.1. Set up an Authentication Method<a class="headerlink" href="#set-up-an-authentication-method" title="Permalink to this headline">¶</a></h2>
-<p>After successfully <a class="reference internal" href="install-db.html#db-install"><span class="std std-ref">installing of PostgreSQL 9.6</span></a> and configuring network access, the next step is to set up a password for the <strong>postgres</strong> user. Run the following commands at a terminal prompt:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">passwd</span> <span class="n">postgres</span>
-<span class="n">sudo</span> <span class="n">su</span> <span class="n">postgres</span>
+<p>After successfully <a class="reference internal" href="install-db.html#db-install"><span class="std std-ref">installing of PostgreSQL 9.6</span></a> and configuring network access, the next step is to set up a password for the <strong>postgres</strong> user.</p>
+<p>By default, local connections to PostgreSQL use the <code class="docutils literal notranslate"><span class="pre">peer</span></code> authentication system. That means that instead of asking you for a password, they check to see if you are currently logged into a system user that matches the user name in Postgres.</p>
+<p>You have to change the way you do authentication and instead tell Postgres to use an encrypted password.</p>
+<p>First you need to set a <em>password</em> for the <strong>postgres</strong> user. To do this you need to open up <strong>psql</strong> as the user <strong>postgres</strong>.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">-</span><span class="n">u</span> <span class="n">postgres</span> <span class="n">psql</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>The first command will add а password to the <strong>postgres</strong> OS user. This is necessary to enable the <strong>postgres</strong> OS user to get permission to create an <strong>eniware</strong> user that is needed for database management.</li>
-</ul>
-<blockquote>
-<div><p>After executing the first command, you will be prompt to setup a password for the <strong>postgres</strong> user.</p>
-<p>The password (mentioned here as <code class="docutils literal notranslate"><span class="pre">your_password</span></code>) for <strong>eniware</strong> user is configured in the <code class="docutils literal notranslate"><span class="pre">postgre-create.sql</span></code> script (see the next section).</p>
-</div></blockquote>
-<ul class="simple">
-<li>The second command allows super user permissions to the <strong>postgres</strong> user.</li>
-</ul>
+<p>You should see output that looks something like this:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">could</span> <span class="ow">not</span> <span class="n">change</span> <span class="n">directory</span> <span class="n">to</span> <span class="s2">&quot;/root&quot;</span><span class="p">:</span> <span class="n">Permission</span> <span class="n">denied</span>
+<span class="n">psql</span> <span class="p">(</span><span class="mf">9.6</span><span class="o">.</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">Type</span> <span class="s2">&quot;help&quot;</span> <span class="k">for</span> <span class="n">help</span><span class="o">.</span>
+
+<span class="n">postgres</span><span class="o">=</span><span class="c1">#</span>
+</pre></div>
+</div>
+<p>This permission denied error isn’t important right now.</p>
+<p>Now that you are connected to Postgres, you have to change the <em>password</em> for the user <strong>postgres</strong>. Be sure to replace the <code class="docutils literal notranslate"><span class="pre">xxxxxxx</span></code> below with an actual password:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Replace xxxxxxx with your own password</span>
+<span class="n">ALTER</span> <span class="n">USER</span> <span class="n">postgres</span> <span class="n">WITH</span> <span class="n">ENCRYPTED</span> <span class="n">PASSWORD</span> <span class="s1">&#39;xxxxxxx&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>With the command above you are telling Postgres that you want to update the user <strong>postgres</strong> by setting an <em>encrypted password</em> of <code class="docutils literal notranslate"><span class="pre">xxxxxxx</span></code>. If you did this correct, you should get the following output.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ALTER</span> <span class="n">ROLE</span>
+<span class="n">postgres</span><span class="o">=</span><span class="c1">#</span>
+</pre></div>
+</div>
+<p>Exit <strong>postgres</strong> user quit by typing <code class="docutils literal notranslate"><span class="pre">\q</span></code> and then hitting <strong>Enter</strong>.</p>
+<p>Now that you have a <em>password</em> set for the <strong>postgres</strong> user you have to update <strong>postgres</strong> to use this <em>password</em>. To do this you need to edit the <code class="docutils literal notranslate"><span class="pre">pg_hba.conf</span></code> file (you can replace <strong>nano</strong> with an editor of your choice):</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">nano</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">postgresql</span><span class="o">/</span><span class="mf">9.6</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">pg_hba</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p>Look for an uncommented line (a line that doesn’t start with <code class="docutils literal notranslate"><span class="pre">#</span></code>) that has the contents shown below. The spacing will be slightly different, but the words should be the same:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">local</span>   <span class="nb">all</span>   <span class="n">postgres</span>   <span class="n">peer</span>
+</pre></div>
+</div>
+<p>The last part of this line is what you have to change. This is what determines how you authenticate the <strong>postgres</strong> user when making a local connection. Instead of <code class="docutils literal notranslate"><span class="pre">peer</span></code>, which uses your <em>system user name</em> to authenticate you, you have to use <code class="docutils literal notranslate"><span class="pre">md5</span></code> which uses an <em>encrypted password</em> for authentication. Replace the word <code class="docutils literal notranslate"><span class="pre">peer</span></code> with <code class="docutils literal notranslate"><span class="pre">md5</span></code>:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">local</span>   <span class="nb">all</span>   <span class="n">postgres</span>   <span class="n">md5</span>
+</pre></div>
+</div>
+<p>Save the changes you’ve made.</p>
+<p>Now you need to restart Postgres so the changes take effect:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">service</span> <span class="n">postgresql</span> <span class="n">restart</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="creating-the-database-components">
 <span id="db-create"></span><h2>2.2. Creating the Database Components<a class="headerlink" href="#creating-the-database-components" title="Permalink to this headline">¶</a></h2>
@@ -184,7 +213,7 @@
 <li>The first command will create the <strong>eniware</strong> user (with the configured password <code class="docutils literal notranslate"><span class="pre">your_password</span></code> in the script) and database and add the necessary extensions to the <strong>eniware</strong> database.</li>
 <li>The second command will execute the <code class="docutils literal notranslate"><span class="pre">postgres-init-plv8.sql</span></code> script that will add the necessary components to the database.</li>
 </ul>
-<p>Once the script has been executed, you should log out <strong>postgres</strong> OS user with the <code class="docutils literal notranslate"><span class="pre">exit</span></code> command and log in with an <strong>eniware</strong> OS user.</p>
+<p>Once the script has been executed, you should log out <strong>postgres</strong> system user with the <code class="docutils literal notranslate"><span class="pre">exit</span></code> command and log in with an <strong>eniware</strong> system user.</p>
 <p>Navigate to the <code class="docutils literal notranslate"><span class="pre">/etc/postgresql/9.6/main/</span></code> directory, where the <strong>postgresql.conf</strong> file is located. The <strong>postgresql.conf</strong> configuration must be updated to add the <strong>plv8</strong> global context. To do that open the <strong>postgresql.conf</strong> file using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">nano</span> <span class="pre">/etc/postgresql/9.6/main/postgresql.conf</span></code>, and enter the following line after the <code class="docutils literal notranslate"><span class="pre">*CUTOMIZED</span> <span class="pre">OPTIONS</span> <span class="pre">/#Add</span> <span class="pre">settings</span> <span class="pre">for</span> <span class="pre">extensions</span> <span class="pre">here/</span></code> field:</p>
 <div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plv8</span><span class="o">.</span><span class="n">start_proc</span> <span class="o">=</span> <span class="s1">&#39;plv8_startup&#39;</span>
 </pre></div>
@@ -196,7 +225,7 @@
 </pre></div>
 </div>
 </div>
-<p>From the <strong>eniware</strong> OS user navigate to the <code class="docutils literal notranslate"><span class="pre">/home/eniware/git/org.eniware.central/eniware-db-setup/postgres/</span></code> directory and run the following command:</p>
+<p>From the <strong>eniware</strong> system user navigate to the <code class="docutils literal notranslate"><span class="pre">/home/eniware/git/org.eniware.central/eniware-db-setup/postgres/</span></code> directory and run the following command:</p>
 <div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">psql</span> <span class="o">-</span><span class="n">U</span> <span class="n">eniware</span> <span class="o">-</span><span class="n">d</span> <span class="n">eniware</span> <span class="o">-</span><span class="n">f</span> <span class="n">postgres</span><span class="o">-</span><span class="n">init</span><span class="o">.</span><span class="n">sql</span>
 </pre></div>
 </div>
