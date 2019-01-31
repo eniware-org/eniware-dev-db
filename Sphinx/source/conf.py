@@ -57,7 +57,7 @@ templates_path = ['_templates']
 def setup(app):
     app.add_stylesheet('custom.css')
     app.add_javascript("custom.js")
-    app.add_javascript("clipboard.min.js")
+    app.add_javascript("clipboard.js")
 
 
 
@@ -106,6 +106,7 @@ html_static_path = ['_static']
 
 html_context = {
     'css_files': [
+        '_static/custom.css',  # add copy-button in RTD theme
         '_static/theme_overrides.css',  # override wide tables in RTD theme
         ],
      }
